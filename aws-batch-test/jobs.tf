@@ -1,13 +1,13 @@
 
 resource "aws_batch_job_queue" "test_queue" {
-  name = "tf-test-batch-job-queue"
+  name = "aws_demo_batch_job-queue"
   state = "ENABLED"
   priority = 1
-  compute_environments = ["${aws_batch_compute_environment.sample.arn}"]
+  compute_environments = ["${aws_batch_compute_environment.aws_batch_demo.arn}"]
 }
 
 resource "aws_batch_job_definition" "test" {
-    name = "tf_test_batch_job_definition"
+    name = "aws_batch_demo_job"
     type = "container"
     container_properties = <<CONTAINER_PROPERTIES
 {
@@ -50,4 +50,12 @@ resource "aws_batch_job_definition" "test" {
 CONTAINER_PROPERTIES
 
 }
+
+
+
+output "aws_batch_job_definition" {
+  value = "${aws_batch_job_definition.test.name}"
+
+}
+
 
