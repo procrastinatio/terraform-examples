@@ -1,6 +1,6 @@
 
 resource "aws_batch_job_queue" "test_queue" {
-  name = "aws_demo_batch_job-queue"
+  name = "aws_demo_batch_job_queue"
   state = "ENABLED"
   priority = 1
   compute_environments = ["${aws_batch_compute_environment.aws_batch_demo.arn}"]
