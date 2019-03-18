@@ -36,7 +36,7 @@ export BATCH_FILE_TYPE="zip"
 export BATCH_FILE_S3_URL="s3://my-bucket/my-zip"
 ${BASENAME} script-from-zip [ <script arguments> ]
 ENDUSAGE
-
+  bash --version
   exit 2
 }
 

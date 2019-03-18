@@ -72,13 +72,15 @@ resource "aws_subnet" "aws_batch_demo" {
 resource "aws_batch_compute_environment" "aws_batch_demo" {
   compute_environment_name = "aws_batch_demo"
   compute_resources {
+    image_id = "${var.aws_ce_ami_id}"
     instance_role = "${aws_iam_instance_profile.ecs_instance_role.arn}"
+    ec2_key_pair = "${var.ce_keypair}"
     instance_type = [
-      "optimal",
+      "m5.2xlarge",
     ]
-    max_vcpus = 4
-    desired_vcpus = 2
-    min_vcpus = 1
+    max_vcpus = 8
+    desired_vcpus = 0
+    min_vcpus = 0
     security_group_ids = [
       "${aws_security_group.aws_batch_demo.id}"
     ]
@@ -86,6 +88,9 @@ resource "aws_batch_compute_environment" "aws_batch_demo" {
       "${aws_subnet.aws_batch_demo.id}"
     ]
     type = "EC2"
+    tags = {
+      Name = "aws_batch_demo"
+    }
   }
   service_role = "${aws_iam_role.aws_batch_service_role.arn}"
   type = "MANAGED"
