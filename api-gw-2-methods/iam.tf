@@ -1,21 +1,27 @@
-
-# Role to play with Lambda
-resource "aws_iam_role" "iam_role_for_lambda" {
-  name = "iam_role_for_lambda"
+ 
+# IAM role which dictates what other AWS services the Lambda function
+# may access.
+resource "aws_iam_role" "lambda_exec" {
+  name = "${var.api_name}-lambda_exec_role"
 
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "",
-      "Effect": "Allow",
-      "Principal": {
+"Statement": [
+{
+      "Action": "sts:AssumeRole",
+"Principal": {
         "Service": "lambda.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
+      
+},
+      "Effect": "Allow",
+      "Sid": ""
+    
+}
+  
+]
+
 }
 EOF
+
 }
