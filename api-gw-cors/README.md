@@ -1,8 +1,20 @@
 # api-gw-cors
 
-AWS API Gatewa and CORS
+AWS API Gateway and CORS
+  
+## Inspiration
+  
+* Terraform and CORS-Enabled AWS API Gateway
+  https://medium.com/@MrPonath/terraform-and-aws-api-gateway-a137ee48a8ac
 
-See https://rogerwelin.github.io/aws/serverless/terraform/lambda/2019/03/18/build-a-serverless-website-from-scratch-with-lambda-and-terraform.html
+* Slightly more than just CORS
+  https://rogerwelin.github.io/aws/serverless/terraform/lambda/2019/03/18/build-a-serverless-website-from-scratch-with-lambda-and-terraform.html
+ 
+* Module `terraform` for CORS:
+  https://github.com/carrot/terraform-api-gateway-cors-module
+ 
+## Demo
+
 
 
     curl -X OPTIONS -v https://xp2ijyuwn5.execute-api.eu-west-1.amazonaws.com/test/resources
