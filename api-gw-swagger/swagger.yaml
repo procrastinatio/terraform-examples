@@ -1,0 +1,97 @@
+swagger: '2.0'
+info:
+  version: '1.0'
+  title: "api-gw-swagger"
+  description: "AWS API Gateway from swagger.yaml"
+schemes:
+  - https
+paths:
+  "/positions":
+    # See https://docs.aws.amazon.com/fr_fr/apigateway/latest/developerguide/enable-cors-for-resource-using-swagger-importer-tool.html
+    options:
+      summary: CORS support
+      description: |
+        Enable CORS by returning correct headers
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - CORS
+      x-amazon-apigateway-integration:
+        type: mock
+        requestTemplates:
+          application/json: |
+            {
+              "statusCode" : 200
+            }
+        responses:
+          "default":
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers : "'Content-Type,X-Amz-Date,Authorization'"
+              method.response.header.Access-Control-Allow-Methods : "'*'"
+              method.response.header.Access-Control-Allow-Origin : "'*'"
+            responseTemplates:
+              application/json: |
+                {}
+      responses:
+        200:
+          description: Default response for CORS method
+          headers:
+            Access-Control-Allow-Headers:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Origin:
+              type: "string"
+    get:
+      description: "Get positions"
+      produces:
+        - application/json
+      responses:
+        200:
+          description: "The position list request successful."
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Position"
+      x-amazon-apigateway-integration:
+        uri: ${get_lambda_arn}
+        passthroughBehavior: "when_no_match"
+        httpMethod: "POST"
+        type: "aws_proxy"
+    post:
+      description: "post a position"
+      consumes:
+        - application/json
+      responses:
+        200:
+          description: "The position was added successfully"
+      x-amazon-apigateway-integration:
+        uri: ${post_lambda_arn}
+        passthroughBehavior: "when_no_match"
+        httpMethod: "POST"
+        type: "aws_proxy"
+
+definitions:
+  Position:
+    type: object
+    description: "A position"
+    properties:
+      point:
+        type: object
+        description: "The coding tip"
+      date:
+        type: number
+        description: "date in millis when tip was entered"
+      author:
+        type: string
+        description: "Author of the position"
+      message:
+        type: string
+        description: "a free message text"
+    required:
+      - point
+      - date
+
